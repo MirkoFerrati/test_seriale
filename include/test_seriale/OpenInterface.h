@@ -580,7 +580,7 @@ namespace irobot
 // 		int parseButtons(unsigned char * buffer, int index);
 // 		int parseDistance(unsigned char * buffer, int index);
 // 		int parseAngle(unsigned char * buffer, int index);
-		int parseChargingState(unsigned char * buffer, int index);
+// 		int parseChargingState(unsigned char * buffer, int index);
 		int parseVoltage(unsigned char * buffer, int index);
 		int parseCurrent(unsigned char * buffer, int index);
 		int parseTemperature(unsigned char * buffer, int index);

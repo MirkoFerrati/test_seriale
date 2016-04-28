@@ -630,12 +630,12 @@ int irobot::OpenInterface::parseSensorPackets(unsigned char * buffer , size_t bu
 		{
 			index += parseAngle(buffer, index);
 			i++;
-                }/**/
+                }/*
 		if(sensor_packets_[i]==OI_PACKET_CHARGING_STATE)
 		{
 			index += parseChargingState(buffer, index);
 			i++;
-		}
+		}*/
 		if(sensor_packets_[i]==OI_PACKET_VOLTAGE)
 		{
 			index += parseVoltage(buffer, index);
@@ -827,8 +827,8 @@ int irobot::OpenInterface::parseSensorPackets(unsigned char * buffer , size_t bu
 			index += parseIrOmniChar(buffer, index);
 			index += parseButtons(buffer, index);
 			index += parseDistance(buffer, index);
-                        index += parseAngle(buffer, index);/**/
-			index += parseChargingState(buffer, index);
+                        index += parseAngle(buffer, index);
+			index += parseChargingState(buffer, index);/**/
 			index += parseVoltage(buffer, index);
 			index += parseCurrent(buffer, index);
 			index += parseTemperature(buffer, index);
@@ -1021,7 +1021,7 @@ int irobot::OpenInterface::parseAngle(unsigned char * buffer, int index)
 
 	return OI_PACKET_ANGLE_SIZE;
 }
-	
+	/*
 int irobot::OpenInterface::parseChargingState(unsigned char * buffer, int index)
 {
 	// Charging State

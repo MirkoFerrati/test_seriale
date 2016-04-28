@@ -127,16 +127,16 @@ include_directories(
 # add_dependencies(test_seriale ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(test_seriale_node src/test_seriale_node.cpp)
+add_executable(test_seriale_node src/main.cpp src/OpenInterface.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(test_seriale_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(test_seriale_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(test_seriale_node
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##

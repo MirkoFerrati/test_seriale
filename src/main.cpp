@@ -52,11 +52,11 @@ irobot::OpenInterface * roomba;
 #include <signal.h>
 #include <termios.h>
 #include <stdio.h>
-#define RIGHT 0x43 
-#define LEFT 0x44
-#define FORWARD 0x41
-#define BACKWARD 0x42
-#define STOP 0x20
+#define KRIGHT 0x43 
+#define KLEFT 0x44
+#define KFORWARD 0x41
+#define KBACKWARD 0x42
+#define KSTOP 0x20
 
 class keyboard_handler
 {
@@ -101,21 +101,21 @@ void keyboard_handler::keyboard_reading()
         int right_speed; //WARNING  mm/s
         switch(c)
         {
-            case LEFT:
+            case KLEFT:
                 left_speed=100;
                 right_speed=200;
                 break;
-            case RIGHT:
+            case KRIGHT:
                 left_speed=200;
                 right_speed=100;
                 break;
-            case FORWARD:
+            case KFORWARD:
                 left_speed=right_speed=200;
                 break;
-            case BACKWARD:
+            case KBACKWARD:
                 left_speed=right_speed=-200;
                 break;
-            case STOP:
+            case KSTOP:
                 left_speed=right_speed=0;
                 break;
         }        
@@ -158,18 +158,26 @@ int main(int argc, char** argv)
         ROS_FATAL("Could not connect to Roomba.");
         ROS_BREAK();
     }
-    
+    sleep(1);
+    roomba->Full();
+    sleep(3);
     ROS_INFO_STREAM("Press w to move wheels forward, s to move wheels backward, space to stop");
-    keyboard_handler keyboard_h;
-    
+//     keyboard_handler keyboard_h;
+    while(ros::ok())
+    {
+//         if( roomba->getSensorPackets(100) == -1) ROS_ERROR("Could not retrieve sensor packets.");
+//         std::cout<<roomba->getLeftEncoderCount()<<" "<<roomba->getRightEncoderCount()<<std::endl;
+        roomba->driveDirect(400,400);
+        usleep(100);
+    }
     ROS_INFO("Keyboard Handler Started");
     
     signal(SIGINT,quit);
     
-    keyboard_h.keyboard_reading();
+//     keyboard_h.keyboard_reading();
 
     roomba->powerDown();
     roomba->closeSerialPort();
-    quit();
+    quit(0);
     return 0;
 }
