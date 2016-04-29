@@ -446,6 +446,7 @@ int irobot::OpenInterface::parseSensorPackets(unsigned char * buffer , size_t bu
 
 	int i = 0;
 	unsigned int index = 0;
+        unsigned int temp_index = 0;
 	while(index < packets_size_)
 	{/*
 		if(sensor_packets_[i]==OI_PACKET_GROUP_0)		// PACKETS 7-26
@@ -813,59 +814,64 @@ int irobot::OpenInterface::parseSensorPackets(unsigned char * buffer , size_t bu
                 }/**/
 		if(sensor_packets_[i]==OI_PACKET_GROUP_100)	// PACKETS 7-58
 		{
+                    temp_index=index;
                     /*
-			index += parseBumpersAndWheeldrops(buffer, index);
-			index += parseWall(buffer, index);
-			index += parseLeftCliff(buffer, index);
-			index += parseFrontLeftCliff(buffer, index);
-			index += parseFrontRightCliff(buffer, index);
-			index += parseRightCliff(buffer, index);
-			index += parseVirtualWall(buffer, index);
-			index += parseOvercurrents(buffer, index);
-			index += parseDirtDetector(buffer, index);
-			index ++;	// Unused byte
-			index += parseIrOmniChar(buffer, index);
-			index += parseButtons(buffer, index);
-			index += parseDistance(buffer, index);
-                        index += parseAngle(buffer, index);
-			index += parseChargingState(buffer, index);/**/
-			index += parseVoltage(buffer, index);
-			index += parseCurrent(buffer, index);
-			index += parseTemperature(buffer, index);
-			index += parseBatteryCharge(buffer, index);
-                        index += parseBatteryCapacity(buffer, index);/*
-			index += parseWallSignal(buffer, index);
-			index += parseLeftCliffSignal(buffer, index);
-			index += parseFrontLeftCliffSignal(buffer, index);
-			index += parseFontRightCliffSignal(buffer, index);
-			index += parseRightCliffSignal(buffer, index);
-			index += 3;	// Unused bytes
-			index += parseChargingSource(buffer, index);/**/
-			index += parseOiMode(buffer, index);/*
-                        index += parseSongNumber(buffer, index);
-			index += parseSongPlaying(buffer, index);
-			index += parseNumberOfStreamPackets(buffer, index);
-			index += parseRequestedVelocity(buffer, index);
-			index += parseRequestedRadius(buffer, index);
-			index += parseRequestedRightVelocity(buffer, index);
-                        index += parseRequestedLeftVelocity(buffer, index);/**/
-			index += parseRightEncoderCounts(buffer, index);
-                        index += parseLeftEncoderCounts(buffer, index);/*
-                        index += parseLightBumper(buffer, index);
-			index += parseLightBumperLeftSignal(buffer, index);
-			index += parseLightBumperFrontLeftSignal(buffer, index);
-			index += parseLightBumperCenterLeftSignal(buffer, index);
-			index += parseLightBumperCenterRightSignal(buffer, index);
-			index += parseLightBumperFrontRightSignal(buffer, index);
-			index += parseLightBumperRightSignal(buffer, index);
-			index += parseIrCharLeft(buffer, index);
-			index += parseIrCharRight(buffer, index);
-			index += parseLeftMotorCurrent(buffer, index);
-			index += parseRightMotorCurrent(buffer, index);
-			index += parseMainBrushMotorCurrent(buffer, index);
-			index += parseSideBrushMotorCurrent(buffer, index);
-                        index += parseStasis(buffer, index);/**/
+			index += parseBumpersAndWheeldrops(buffer, index);1
+			index += parseWall(buffer, index);1
+			index += parseLeftCliff(buffer, index);1
+			index += parseFrontLeftCliff(buffer, index);1
+			index += parseFrontRightCliff(buffer, index);1
+			index += parseRightCliff(buffer, index);1
+			index += parseVirtualWall(buffer, index);1
+			index += parseOvercurrents(buffer, index);1
+			index += parseDirtDetector(buffer, index);1
+			index ++;	// Unused byte1
+			index += parseIrOmniChar(buffer, index);1
+			index += parseButtons(buffer, index);1
+			index += parseDistance(buffer, index);2
+                        index += parseAngle(buffer, index);2
+			index += parseChargingState(buffer, index);1/**/
+			index +=17;
+			index += parseVoltage(buffer, index);2;
+			index += parseCurrent(buffer, index);2;
+			index += parseTemperature(buffer, index);1;
+			index += parseBatteryCharge(buffer, index);2;
+                        index += parseBatteryCapacity(buffer, index);2;/*
+			index += parseWallSignal(buffer, index);2
+			index += parseLeftCliffSignal(buffer, index);2
+			index += parseFrontLeftCliffSignal(buffer, index);2
+			index += parseFontRightCliffSignal(buffer, index);2
+			index += parseRightCliffSignal(buffer, index);2
+			index += 3;	// Unused bytes3
+			index += parseChargingSource(buffer, index);1/**/
+			index += 14;
+			index += parseOiMode(buffer, index);1;/*
+                        index += parseSongNumber(buffer, index);1
+			index += parseSongPlaying(buffer, index);1
+			index += parseNumberOfStreamPackets(buffer, index);1
+			index += parseRequestedVelocity(buffer, index);2
+			index += parseRequestedRadius(buffer, index);2
+			index += parseRequestedRightVelocity(buffer, index);2
+                        index += parseRequestedLeftVelocity(buffer, index);2/**/
+                        index += 11;
+			index += parseRightEncoderCounts(buffer, index);2;
+                        index += parseLeftEncoderCounts(buffer, index);2;/*
+                        index += parseLightBumper(buffer, index);1
+			index += parseLightBumperLeftSignal(buffer, index);2
+			index += parseLightBumperFrontLeftSignal(buffer, index);2
+			index += parseLightBumperCenterLeftSignal(buffer, index);2
+			index += parseLightBumperCenterRightSignal(buffer, index);2
+			index += parseLightBumperFrontRightSignal(buffer, index);2
+			index += parseLightBumperRightSignal(buffer, index);2
+			index += parseIrCharLeft(buffer, index);1
+			index += parseIrCharRight(buffer, index);1
+			index += parseLeftMotorCurrent(buffer, index);2
+			index += parseRightMotorCurrent(buffer, index);2
+			index += parseMainBrushMotorCurrent(buffer, index);2
+			index += parseSideBrushMotorCurrent(buffer, index);2
+                        index += parseStasis(buffer, index);1/**/
 			i++;   
+                        index=temp_index+80;
                 }/*
 		if(sensor_packets_[i]==OI_PACKET_GROUP_101)	// PACKETS 43-58
 		{
@@ -1176,7 +1182,7 @@ int irobot::OpenInterface::parseRightEncoderCounts(unsigned char * buffer, int i
 	// Right encoder counts
 	uint16_t right_encoder_counts = buffer2unsigned_int(buffer, index);
 
-	//printf("Right Encoder: %d\n", rightEncoderCounts);
+        printf("Right Encoder: %d\n", right_encoder_counts);
 
 	if(encoder_counts_[RIGHT] == -1 || right_encoder_counts == last_encoder_counts_[RIGHT])	// First time, we need 2 to make it work!
 	{
@@ -1199,7 +1205,7 @@ int irobot::OpenInterface::parseLeftEncoderCounts(unsigned char * buffer, int in
 	// Left encoder counts
 	uint16_t left_encoder_counts = buffer2unsigned_int(buffer, index);
 
-	//printf("Left Encoder: %d\n", leftEncoderCounts);
+        printf("Left Encoder: %d\n", left_encoder_counts);
 
 	if(encoder_counts_[LEFT] == -1 || left_encoder_counts == last_encoder_counts_[LEFT])	// First time, we need 2 to make it work!
 	{

@@ -133,6 +133,7 @@ void quit(int sig)
 {
     tcsetattr(kfd, TCSANOW, &cooked);
     ros::shutdown();
+    std::cout<<"quitting"<<std::endl;
     exit(0);
 }
 
@@ -151,30 +152,44 @@ int main(int argc, char** argv)
     n.param<std::string>("roomba/port", port, "/dev/ttyUSB0");
     
     roomba = new irobot::OpenInterface(port.c_str());
-        
+    irobot::OI_Packet_ID sensor_packets[1] = {irobot::OI_PACKET_GROUP_100};
+    roomba->setSensorPackets(sensor_packets, 1, OI_PACKET_GROUP_100_SIZE);
+    
     if( roomba->openSerialPort(true) == 0) ROS_INFO("Connected to Roomba.");
     else
     {
         ROS_FATAL("Could not connect to Roomba.");
         ROS_BREAK();
     }
-    sleep(1);
-    roomba->Full();
-    sleep(3);
-    ROS_INFO_STREAM("Press w to move wheels forward, s to move wheels backward, space to stop");
-//     keyboard_handler keyboard_h;
-    while(ros::ok())
+    while(roomba->getSensorPackets(100) == -1 && ros::ok())
     {
+        usleep(100);
+        std::cout<<"Waiting for roomba sensors"<<std::endl;
+    }
+//     sleep(1);
+    std::cout<<"Press w to move wheels forward, s to move wheels backward, space to stop"<<std::endl;
+    keyboard_handler keyboard_h;
+    bool first_loop=true;
+//     while(ros::ok())
+//     {
+// 
 //         if( roomba->getSensorPackets(100) == -1) ROS_ERROR("Could not retrieve sensor packets.");
 //         std::cout<<roomba->getLeftEncoderCount()<<" "<<roomba->getRightEncoderCount()<<std::endl;
-        roomba->driveDirect(400,400);
-        usleep(100);
-    }
+//         
+//         if(first_loop)
+//         {
+            roomba->startOI(true);
+            roomba->Full();
+//             first_loop=false;
+//         }
+// //         roomba->driveDirect(100,100);
+//         usleep(100);
+//     }
     ROS_INFO("Keyboard Handler Started");
     
     signal(SIGINT,quit);
     
-//     keyboard_h.keyboard_reading();
+    keyboard_h.keyboard_reading();
 
     roomba->powerDown();
     roomba->closeSerialPort();
