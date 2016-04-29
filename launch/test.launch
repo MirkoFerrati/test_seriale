@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="port" default="/dev/ttyUSB0"/>
+
+  <node name="test_seriale" pkg="test_seriale" type="test_seriale_node" respawn="false" output="screen">
+    <param name="port_" value="$(arg port)"/>
+  </node>
+</launch>

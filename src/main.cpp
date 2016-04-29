@@ -149,7 +149,7 @@ int main(int argc, char** argv)
     
     ros::NodeHandle n;
     
-    n.param<std::string>("roomba/port", port, "/dev/ttyUSB0");
+    n.param<std::string>("port", port, "/dev/ttyUSB0");
     
     roomba = new irobot::OpenInterface(port.c_str());
     irobot::OI_Packet_ID sensor_packets[1] = {irobot::OI_PACKET_GROUP_100};
